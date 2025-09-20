@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo 应用</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6fb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .todo-container {
+      background: #fff;
+      margin-top: 60px;
+      padding: 32px 24px 24px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      width: 350px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 24px;
+    }
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .input-row input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .input-row button {
+      padding: 8px 16px;
+      background: #4f8cff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .input-row button:hover {
+      background: #2563eb;
+    }
+    ul.todo-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.todo-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+    ul.todo-list li:last-child {
+      border-bottom: none;
+    }
+    .todo-text {
+      flex: 1;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .todo-text.completed {
+      text-decoration: line-through;
+      color: #bdbdbd;
+    }
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #ff5c5c;
+      font-size: 18px;
+      cursor: pointer;
+      margin-left: 12px;
+      transition: color 0.2s;
+    }
+    .delete-btn:hover {
+      color: #5de4f6;
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <h1>Todo 应用 v2</h1>
+    <div class="input-row">
+      <input type="text" id="todo-input" placeholder="请输入待办事项..." />
+      <button id="add-btn">添加</button>
+    </div>
+    <ul class="todo-list" id="todo-list"></ul>
+  </div>
+  <script>
+    const input = document.getElementById('todo-input');
+    const addBtn = document.getElementById('add-btn');
+    const todoList = document.getElementById('todo-list');
+
+    function createTodoItem(text) {
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      span.className = 'todo-text';
+      span.textContent = text;
+      span.onclick = function() {
+        span.classList.toggle('completed');
+      };
+      const delBtn = document.createElement('button');
+      delBtn.className = 'delete-btn';
+      delBtn.textContent = '✕';
+      delBtn.onclick = function() {
+        todoList.removeChild(li);
+      };
+      li.appendChild(span);
+      li.appendChild(delBtn);
+      return li;
+    }
+
+    addBtn.onclick = function() {
+      const value = input.value.trim();
+      if (value) {
+        todoList.appendChild(createTodoItem(value));
+        input.value = '';
+        input.focus();
+      }
+    };
+
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        addBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
